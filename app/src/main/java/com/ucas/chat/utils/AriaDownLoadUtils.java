@@ -12,8 +12,10 @@ import com.arialyy.aria.util.FileUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+
 public class AriaDownLoadUtils {
-    String TAG = "AnyRunnModule";
+    String TAG = "AriaDownLoadUtils";
     private Context mContext;
     private String mUrl;
     private long mTaskId = -1;
@@ -24,7 +26,7 @@ public class AriaDownLoadUtils {
     }
 
     @Download.onWait
-    void onWait(DownloadTask task) {
+    public void onWait(DownloadTask task) {
         Log.d(TAG, "wait ==> " + task.getDownloadEntity().getFileName());
     }
 
@@ -34,7 +36,7 @@ public class AriaDownLoadUtils {
     }
 
     @Download.onTaskStart
-    void taskStart(DownloadTask task) {
+    public void taskStart(DownloadTask task) {
         Log.d(TAG, "onStart");
         EventBus.getDefault().post(new EventBusEvent("taskStart"));
     }
@@ -49,57 +51,66 @@ public class AriaDownLoadUtils {
     }
 
     @Download.onTaskResume
-    void taskResume(DownloadTask task) {
+    public void taskResume(DownloadTask task) {
         Log.d(TAG, "resume");
     }
 
     @Download.onTaskStop
-    void taskStop(DownloadTask task) {
+    public void taskStop(DownloadTask task) {
         Log.d(TAG, "stop");
         EventBus.getDefault().post(new EventBusEvent("taskStop"));
     }
 
     @Download.onTaskCancel
-    void taskCancel(DownloadTask task) {
+    public void taskCancel(DownloadTask task) {
         Log.d(TAG, "cancel");
         EventBus.getDefault().post(new EventBusEvent("taskCancel"));
     }
 
     @Download.onTaskFail
-    void taskFail(DownloadTask task) {
+    public void taskFail(DownloadTask task) {
         Log.d(TAG, "fail");
         EventBus.getDefault().post(new EventBusEvent("taskFail"));
     }
 
     @Download.onTaskComplete
-    void taskComplete(DownloadTask task) {
+    public void taskComplete(DownloadTask task) {
         Log.d(TAG, "path ==> " + task.getDownloadEntity().getServerFileName());
         // eventBus --->  把消息发送出去  activity 接收
         EventBus.getDefault().post(new EventBusEvent("taskComplete"));
     }
 
 
-    void start(String url,String fileName) {
+    public void start(String url,String fileName) {
         mUrl = url;
-        if (FileUtil.createDir(Environment.getExternalStorageDirectory().getPath() + "/fileTest")){
-            mTaskId = Aria.download(this)
-                    .load(url)
-                    .setFilePath(Environment.getExternalStorageDirectory().getPath() + "/fileTest/"+fileName)
-                    .resetState()
-                    .create();
-        }
+//        String path = Environment.getExternalStorageDirectory().getPath() + "/chat";
+//        if (new File(path).exists()){
+//
+//        }else {
+//
+//        }
+        FileUtil.createDir(Environment.getExternalStorageDirectory().getPath() + "/chat");
+        mTaskId = Aria.download(this)
+                .load(url)
+                .setFilePath(Environment.getExternalStorageDirectory().getPath() + "/chat/"+fileName)
+                .resetState()
+                .create();
 
     }
 
-    void stop() {
+    public void reStart() {
+        Aria.download(this).load(mTaskId).resume();
+    }
+
+    public void stop() {
         Aria.download(this).load(mTaskId).stop();
     }
 
-    void cancel() {
+    public void cancel() {
         Aria.download(this).load(mTaskId).cancel();
     }
 
-    void unRegister() {
+    public void unRegister() {
         Aria.download(this).unRegister();
     }
 }

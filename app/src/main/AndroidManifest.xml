@@ -55,6 +55,7 @@
 
         </activity>
         <activity android:name=".ui.home.chat.ShowImageActivity"></activity>
+        <activity android:name=".ui.download.DownloadActivity"></activity>
     </application>
 
 </manifest>

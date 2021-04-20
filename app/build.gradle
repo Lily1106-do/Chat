@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.ucas.chat"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -58,4 +58,5 @@ dependencies {
     // 文件下载
     implementation 'com.arialyy.aria:core:3.8.12'
     annotationProcessor 'com.arialyy.aria:compiler:3.8.12'
+    implementation 'com.github.imcloudfloating:ProgressBar:1.1'
 }

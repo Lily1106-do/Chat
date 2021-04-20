@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.arialyy.aria.core.Aria;
 
 
 public class MyApplication extends Application {
@@ -25,6 +26,8 @@ public class MyApplication extends Application {
         //初始化屏幕宽高
        // getScreenSize();
        // LitePal.initialize(this);
+
+        Aria.init(this);
     }
 
     public static Context getContext() {

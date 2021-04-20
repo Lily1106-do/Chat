@@ -1,12 +1,14 @@
 package com.ucas.chat.ui.home.chat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import com.ucas.chat.bean.session.VideoAttachment;
 import com.ucas.chat.bean.session.message.AudioAttachment;
 import com.ucas.chat.bean.session.message.FileAttachment;
 import com.ucas.chat.bean.session.message.IMMessage;
+import com.ucas.chat.ui.download.DownloadActivity;
 import com.ucas.chat.ui.listener.OnItemClickListener;
 import com.ucas.chat.ui.view.chat.RViewHolder;
 import com.ucas.chat.utils.ChatUtils;
@@ -104,6 +107,9 @@ public class MessageListAdapter extends RecyclerView.Adapter<RViewHolder> {
             headView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
+
 //                    Intent intent = new Intent(mContext, FriendInfoActivity.class);
 //                    intent.putExtra("NimUserInfo", mChatSession.getChatInfo());
 //                    intent.putExtra("FLAG",FriendInfoActivity.FLAG_SHOW_FRIEND);
@@ -224,7 +230,16 @@ public class MessageListAdapter extends RecyclerView.Adapter<RViewHolder> {
                 break;
             case MSG_FILE_L:
             case MSG_FILE_R:
-                FileAttachment fileAttachment = (FileAttachment) message.getAttachment();
+                final FileAttachment fileAttachment = (FileAttachment) message.getAttachment();
+                LinearLayout linearLayout = holder.getConvertView().findViewById(R.id.rc_message);
+                linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext,DownloadActivity.class);
+                        intent.putExtra("fileName",fileAttachment.getDisplayName());
+                        mContext.startActivity(intent);
+                    }
+                });
                 break;
         }
     }

@@ -144,7 +144,9 @@ public class MessageBuilder {
 //        msg.setContent(file.getName());
         FileAttachment fileAttachment = new FileAttachment();
         fileAttachment.setSize(file.length());
+        fileAttachment.setDisplayName(file.getName());
         fileAttachment.setExtension(StringUtils.getExtension(file.getName()));
+        msg.setAttachment(fileAttachment);
         return msg;
     }
 }
