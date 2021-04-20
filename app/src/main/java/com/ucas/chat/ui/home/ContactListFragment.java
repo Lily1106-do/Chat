@@ -50,7 +50,6 @@ public class ContactListFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         mRv = (RecyclerView) view.findViewById(R.id.rv);
         mRv.setLayoutManager(mManager = new LinearLayoutManager(getActivity()));
-
         mAdapter = new ContactListAdapter(getActivity(), mDatas);
         mRv.setAdapter(mAdapter);
         mRv.addItemDecoration(mDecoration = new SuspensionDecoration(getActivity(), mDatas));
@@ -59,19 +58,11 @@ public class ContactListFragment extends BaseFragment {
 
         mIndexBar = (IndexBar) view.findViewById(R.id.indexBar);//IndexBar
         //indexbar初始化
-        mIndexBar
-                .setNeedRealIndex(true)//设置需要真实的索引
-                .setmLayoutManager(mManager);//设置RecyclerView的LayoutManager
+        mIndexBar.setNeedRealIndex(true)//设置需要真实的索引
+                 .setmLayoutManager(mManager);//设置RecyclerView的LayoutManager
 
         //模拟线上加载数据
         initDatas(getResources().getStringArray(R.array.provinces));
-        Bundle bundle = new Bundle();
-//        bundle.putString(UIController.BUNDLE_LOGIN_ACCOUNT, mEdUserName.getText().toString().trim());
-//        bundle.putString(UIController.BUNDLE_LOGIN_PASSWORD, mEdPwd.getText().toString().trim());
-//        ControlManager.getControlManager().setCurrentModule(ModuleDef.FEATURE_CONTACT_LIST_MODULE);
-//        ControlManager.getControlManager().sendMessageToModule( ModuleDef.MESSAGE_TO_CONTACT_LIST_MODULE ,bundle);
-
-
     }
 
     private void initDatas(final String[] data) {

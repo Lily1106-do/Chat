@@ -69,12 +69,16 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
         </activity>
+        <activity android:name=".ui.home.PersonalDetailsActivity"></activity>
 
         <service
             android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"
             android:process=":dexopt" >
         </service>
+
+
+
     </application>
 
 </manifest>

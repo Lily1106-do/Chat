@@ -89,4 +89,5 @@
     <color name="stroke_color">#e9e5e5</color>
     <color name="dialog_back_color">#aab7b5b5</color>
     <color name="partTranslucent">#39000000</color>
+    <color name="bg_color">#f3f3f3</color>
 </resources>

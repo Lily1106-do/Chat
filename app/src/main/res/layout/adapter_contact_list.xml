@@ -13,7 +13,7 @@
         android:id="@+id/ivAvatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        tools:src="@mipmap/head1"/>
+        android:src="@mipmap/g1"/>
 
     <TextView
         android:id="@+id/tvName"

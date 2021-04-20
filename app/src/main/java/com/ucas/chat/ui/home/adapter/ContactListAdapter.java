@@ -1,21 +1,23 @@
 package com.ucas.chat.ui.home.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ucas.chat.R;
+import com.ucas.chat.bean.UserBean;
 import com.ucas.chat.bean.contact.ContactListBean;
+import com.ucas.chat.ui.home.PersonalDetailsActivity;
 
 import java.util.List;
+import java.util.Random;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
@@ -47,11 +49,15 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ContactListAdapter.ViewHolder holder, final int position) {
         final ContactListBean bean = mDatas.get(position);
+        Random rand = new Random();
+        int imIndex = rand.nextInt(UserBean.imHead.length);
+        holder.headIcon.setImageResource(UserBean.imHead[imIndex]);
         holder.tvName.setText(bean.getName());
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "pos:" + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, PersonalDetailsActivity.class);
+                mContext.startActivity(intent);
             }
         });
     }
