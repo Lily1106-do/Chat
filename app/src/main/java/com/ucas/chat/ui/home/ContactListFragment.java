@@ -14,6 +14,8 @@ import com.ucas.chat.base.BaseFragment;
 import com.ucas.chat.bean.contact.ContactListBean;
 import com.ucas.chat.ui.home.adapter.ContactListAdapter;
 import com.ucas.chat.ui.view.decoration.DividerItemDecoration;
+import com.ucas.chat.ui.view.dialog.InputDialog;
+import com.ucas.chat.utils.ToastUtils;
 import com.xdroid.IndexBar.widget.IndexBar;
 import com.xdroid.suspension.SuspensionDecoration;
 
@@ -48,7 +50,9 @@ public class ContactListFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRv = (RecyclerView) view.findViewById(R.id.rv);
+        mImAdd = view.findViewById(R.id.im_add);
+        mImAdd.setOnClickListener(this);
+        mRv = view.findViewById(R.id.rv);
         mRv.setLayoutManager(mManager = new LinearLayoutManager(getActivity()));
         mAdapter = new ContactListAdapter(getActivity(), mDatas);
         mRv.setAdapter(mAdapter);
@@ -78,5 +82,27 @@ public class ContactListFragment extends BaseFragment {
                 mIndexBar.setmSourceDatas(mDatas)//设置数据
                         .invalidate();
                 mDecoration.setmDatas(mDatas);
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.im_add:
+                final InputDialog dialog = new InputDialog(getActivity());
+                dialog.setOnClickBottomListener(new InputDialog.OnClickBottomListener() {
+
+                    @Override
+                    public void onPositiveClick(String remark) {
+                        ToastUtils.showMessage(getContext(),getString(R.string.add_success));
+                        dialog.dismiss();
+                    }
+                    @Override
+                    public void onNegtiveClick() {
+                        dialog.dismiss();
+                    }
+                }).show();
+                break;
+        }
     }
 }

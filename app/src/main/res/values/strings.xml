@@ -77,4 +77,21 @@
     <string name="remark">修改备注：</string>
     <string name="input">请输入</string>
     <string name="input_remark">请输入备注</string>
+    <string name="add_success">添加成功</string>
+
+    <string name="Account_Password">账号密码</string>
+    <string name="change_language">更换语言</string>
+
+    <string name="set">设置</string>
+    <string name="quit">退出登录</string>
+
+    <string name="max_file_number">最大文件并发数:</string>
+    <string name="Shortcut_file_sending_path">快捷文件发送路径:</string>
+    <string name="default_file_receiving_path">默认文件接收路径:</string>
+    <string name="maximum_retention_time_of_historical_files">历史文件最长保存时间:</string>
+
+    <string name="new_password">新密码：</string>
+    <string name="please_enter_new_password">请输入新密码</string>
+    <string name="confirm_the_new_password">确认新密码：</string>
+    <string name="please_confirm_the_new_password">请确认新密码</string>
 </resources>

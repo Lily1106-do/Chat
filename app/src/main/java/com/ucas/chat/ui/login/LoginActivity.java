@@ -105,6 +105,7 @@ public class LoginActivity extends BaseActivity{
         if (null != bean){
             if (!TextUtils.isEmpty(bean.getPassword()) && !TextUtils.isEmpty(bean.getUserName())){
                 if (bean.getUserName().equals(name) && bean.getPassword().equals(password)){
+                    mEdPassWord.setText("");
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }else {
