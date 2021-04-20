@@ -29,9 +29,9 @@ import java.util.Locale;
 
 public class LanguageActivity extends BaseActivity {
 
+    private ImageView mImBack;
     private ListView mListView; //首页的ListView
     private int selectPosition = 0;//用于记录用户选择的变量
-
     private String[] languageCodeArr = {"zh", "zh_rHK", "en"};
 
     @Override
@@ -57,6 +57,13 @@ public class LanguageActivity extends BaseActivity {
 
     private void initView(){
         mListView = findViewById(R.id.lv);
+        mImBack = findViewById(R.id.im_back);
+        mImBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initDatas(){
