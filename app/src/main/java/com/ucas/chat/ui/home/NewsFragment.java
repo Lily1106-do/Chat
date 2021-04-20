@@ -16,6 +16,10 @@ import com.ucas.chat.base.BaseFragment;
 import com.ucas.chat.bean.UserBean;
 import com.ucas.chat.ui.home.adapter.NewsListAdapter;
 import com.ucas.chat.ui.home.chat.P2PChatActivity;
+import com.ucas.chat.utils.SharedPreferencesUtil;
+import com.ucas.chat.utils.TextUtils;
+
+import static com.ucas.chat.MyApplication.getContext;
 
 /**
  * 消息
@@ -44,8 +48,11 @@ public class NewsFragment extends BaseFragment {
         mAdapter = new NewsListAdapter(getActivity());
         mLvNewsList.setAdapter(mAdapter);
 
-        UserBean bean = new UserBean();
-        mImHead.setImageResource(bean.getImPhoto());
+        UserBean bean = SharedPreferencesUtil.getUserBeanSharedPreferences(getContext());
+        if (null != bean){
+            mImHead.setImageResource(bean.getImPhoto());
+            mTvUserName.setText(bean.getUserName());
+        }
 
         Bundle bundle = new Bundle();
 //        bundle.putString(UIController.BUNDLE_LOGIN_ACCOUNT, mEdUserName.getText().toString().trim());

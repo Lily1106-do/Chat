@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,10 +16,15 @@ import androidx.annotation.Nullable;
 import com.ucas.chat.R;
 import com.ucas.chat.base.BaseActivity;
 import com.ucas.chat.bean.UserBean;
+import com.ucas.chat.bean.contact.ConstantValue;
+import com.ucas.chat.ui.ChangePasswordActivity;
 import com.ucas.chat.ui.home.HomeActivity;
 import com.ucas.chat.ui.register.RegisterActivity;
 import com.ucas.chat.ui.view.RoundProgressBar;
 import com.ucas.chat.utils.PermissionUtils;
+import com.ucas.chat.utils.SharedPreferencesUtil;
+import com.ucas.chat.utils.TextUtils;
+import com.ucas.chat.utils.ToastUtils;
 
 import java.util.Random;
 
@@ -54,7 +58,6 @@ public class LoginActivity extends BaseActivity{
         mEdPassWord = findViewById(R.id.ed_pass_word);
         mTvForgetPassword = findViewById(R.id.tv_forget_password);
         mButtConfirm = findViewById(R.id.butt_confirm);
-        mTvForgetPassword =findViewById(R.id.tv_register);
         mTvRegister = findViewById(R.id.tv_register);
         mRoundProgressBar =findViewById(R.id.roundProgressBar);
         mRoundProgressBar.setProgress(50);
@@ -72,6 +75,13 @@ public class LoginActivity extends BaseActivity{
         super.onClick(v);
         switch (v.getId()){
             case R.id.tv_forget_password:
+                UserBean bean = SharedPreferencesUtil.getUserBeanSharedPreferences(getContext());
+                if (null != bean){
+                    Intent intentPassword = new Intent(LoginActivity.this, ChangePasswordActivity.class);
+                    startActivityForResult(intentPassword,ConstantValue.LOGIN_TO_CHANGE_PASSWORD);
+                }else {
+                    ToastUtils.showMessage(getContext(),getString(R.string.tip_registered_account_num));
+                }
 
                 break;
             case R.id.tv_register:
@@ -85,26 +95,35 @@ public class LoginActivity extends BaseActivity{
     }
 
     private void login(){
-
-        if (TextUtils.isEmpty(mEdUserName.getText().toString().trim())) {
-            Log.d(TAG, "login: user name is null");
-            Toast.makeText(getContext(),getString(R.string.tip_uesr_name), Toast.LENGTH_SHORT).show();
-            return;
+        UserBean bean = SharedPreferencesUtil.getUserBeanSharedPreferences(getContext());
+        String name = mEdUserName.getText().toString().trim();
+        String password = mEdPassWord.getText().toString().trim();
+        if (null != bean){
+            if (!TextUtils.isEmpty(bean.getPassword()) && !TextUtils.isEmpty(bean.getUserName())){
+                if (bean.getUserName().equals(name) && bean.getPassword().equals(password)){
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                }else {
+                    ToastUtils.showMessage(getContext(),getString(R.string.tip_login_error));
+                }
+            }
+        }else {
+            ToastUtils.showMessage(getContext(),getString(R.string.tip_registered_account_num));
         }
-        if (TextUtils.isEmpty(mEdPassWord.getText().toString().trim())) {
-            Log.d(TAG, "login: password is null");
-            Toast.makeText(getContext(),getString(R.string.tip_uesr_name), Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Random rand = new Random();
-        int imIndex = rand.nextInt(UserBean.imHead.length);
-        UserBean bean = new UserBean();
-        bean.setImPhoto(imIndex);
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-        startActivity(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ConstantValue.LOGIN_TO_CHANGE_PASSWORD) {
+            UserBean bean = SharedPreferencesUtil.getUserBeanSharedPreferences(getContext());
+            if (null != bean){
+                mEdUserName.setText(bean.getUserName());
+                mEdPassWord.setText(bean.getPassword());
+            }
+        }
+
+    }
 
     /**
      * 检查，申请权限

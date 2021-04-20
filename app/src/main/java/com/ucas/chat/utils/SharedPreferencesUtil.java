@@ -4,10 +4,35 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.ucas.chat.bean.UserBean;
+import com.ucas.chat.bean.contact.ConstantValue;
+
 import java.util.Set;
 
 public class SharedPreferencesUtil {
 
+    public static void setUserBeanSharedPreferences(Context context, UserBean bean) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantValue.USER_BEAN_STARE_KEY, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String jsonStr=gson.toJson(bean);
+        editor.putString(ConstantValue.USER_BEAN_STARE_KEY, jsonStr);
+        editor.commit();
+    }
+
+
+
+    public static UserBean getUserBeanSharedPreferences(Context context) {
+        UserBean bean = null;
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantValue.USER_BEAN_STARE_NAME, Activity.MODE_PRIVATE);
+        String jsonStr = sharedPreferences.getString(ConstantValue.USER_BEAN_STARE_KEY,"");
+        if(jsonStr!=""){
+            Gson gson = new Gson();
+            bean = gson.fromJson(jsonStr, UserBean.class);
+        }
+        return bean;
+    }
 
     public static void setIntSharedPreferences(Context context, String name, String key, int value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(name, Activity.MODE_PRIVATE);
