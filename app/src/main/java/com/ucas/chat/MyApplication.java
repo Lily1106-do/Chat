@@ -7,6 +7,10 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.arialyy.aria.core.Aria;
+import com.tencent.smtt.export.external.TbsCoreSettings;
+import com.tencent.smtt.sdk.QbSdk;
+
+import java.util.HashMap;
 
 
 public class MyApplication extends Application {
@@ -15,19 +19,24 @@ public class MyApplication extends Application {
     public static float DIMEN_RATE = -1.0F;
     public static int DIMEN_DPI = -1;
     public static Context app;
+
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
-       // ControlManager.initialize(this);
+        // ControlManager.initialize(this);
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(getApplicationContext());
 //        crashHandler.sendPreviousReportsToServer();
         //初始化屏幕宽高
-       // getScreenSize();
-       // LitePal.initialize(this);
+        // getScreenSize();
+        // LitePal.initialize(this);
 
         Aria.init(this);
+        HashMap map = new HashMap();
+        map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
+        map.put(TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE, true);
+        QbSdk.initTbsSettings(map);
     }
 
     public static Context getContext() {

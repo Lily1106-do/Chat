@@ -18,6 +18,7 @@ public class AriaDownLoadUtils {
     String TAG = "AriaDownLoadUtils";
     private Context mContext;
     private String mUrl;
+    private String mFileName;
     private long mTaskId = -1;
 
     public AriaDownLoadUtils(Context context) {

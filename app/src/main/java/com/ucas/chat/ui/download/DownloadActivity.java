@@ -3,11 +3,14 @@ package com.ucas.chat.ui.download;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.cloud.progressbar.CircleProgressBar;
+import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.ValueCallback;
 import com.ucas.chat.R;
 import com.ucas.chat.base.BaseActivity;
 import com.ucas.chat.utils.AriaDownLoadUtils;
@@ -16,6 +19,9 @@ import com.ucas.chat.utils.EventBusEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
+import java.util.HashMap;
 
 /**
  * create by an_huang
@@ -46,6 +52,12 @@ public class DownloadActivity extends BaseActivity {
         btnDownLoad.setOnClickListener(this);
         tvFileName = findViewById(R.id.fileName);
         tvFileName.setText(TextUtils.isEmpty(fileName)?"":fileName);
+
+        String path = fileSavePath+"/"+fileName;
+        File file = new File(path);
+        if (file.exists()){
+            btnDownLoad.setText("打开文件");
+        }
     }
 
 
@@ -88,13 +100,25 @@ public class DownloadActivity extends BaseActivity {
             case R.id.commit:
                 if ("开始下载".equals(btnDownLoad.getText().toString())){
                     downloadUrl = "https://img.jingmaiwang.com/download/jmw_142_v1.3.9.apk";
-                    downLoadUtils.start(downloadUrl,"bbb.apk");
+                    downLoadUtils.start(downloadUrl,fileName);
                 }else if ("下载中...".equals(btnDownLoad.getText().toString())){
                     downLoadUtils.stop();
                     btnDownLoad.setText("继续下载");
                 }else if ("继续下载".equals(btnDownLoad.getText().toString())){
                     downLoadUtils.reStart();
                     btnDownLoad.setText("下载中...");
+                }else if("打开文件".equals(btnDownLoad.getText().toString())){
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    params.put("style", "1");
+                    params.put("local", "true");
+                    String openFilePath = fileSavePath+"/"+fileName;
+                    QbSdk.openFileReader(DownloadActivity.this, openFilePath, params, new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String s) {
+                            Log.e("TAG","s="+s);
+                        }
+                    });
+                    openFilePath = "";
                 }
                 break;
         }

@@ -378,7 +378,7 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
                 //.onlySelectFolder()  //只能选择文件夹
                 // .isSingle() // 只能选择一个
                 .setMaxCount(maxCount) //设置最大选择数
-                .setFileTypes("png", "jpg", "doc", "apk", "mp3", "gif", "txt", "mp4", "zip") //设置文件类型
+                .setFileTypes("png", "jpg", "doc", "docx", "apk", "mp3", "gif", "txt", "mp4", "zip") //设置文件类型
                 .setSortType(FileSelector.BY_NAME_ASC) //设置名字排序
                 //.setSortType(FileSelector.BY_TIME_ASC) //设置时间排序
                 //.setSortType(FileSelector.BY_SIZE_DESC) //设置大小排序
