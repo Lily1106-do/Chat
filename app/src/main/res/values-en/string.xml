@@ -14,10 +14,15 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="register_login">Register and log in</string>
     <string name="login">Login</string>
+    <string name="change_password">修改密码</string>
     <string name="get_user_name">Get user name?</string>
     <string name="forget_password">Forget the password？</string>
     <string name="tip_uesr_name">Please fill in the user name</string>
     <string name="tip_pass_word">Please fill in the password</string>
+    <string name="tip_confirm_pass_word">请确认两次密码是否一样</string>
+    <string name="tip_registered_account_num">请注册账号</string>
+    <string name="tip_login_error">账号或密码不正确</string>
+    <string name="on_line">在线</string>
 
     <string name="ok">确认</string>
     <string name="cancel">取消</string>
@@ -64,4 +69,7 @@
 
     <string name="contact_list">通讯录</string>
     <string name="test_time">08:00</string>
+    <string name="read">已读</string>
+    <string name="no_read">未读</string>
+    <string name="delete_friend">确定删除此人？</string>
 </resources>

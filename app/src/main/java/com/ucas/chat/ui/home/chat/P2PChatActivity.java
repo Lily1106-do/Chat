@@ -185,14 +185,14 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
         //mBtnAudio
         mUiHelper= ChatUiHelper.with(this);
         mUiHelper.bindContentLayout(mLlContent)
-                .bindttToSendButton(mBtnSend)
-                .bindEditText(mEtContent)
-                .bindBottomLayout(mRlBottomLayout)
-                .bindAddLayout(mLlAdd)
-                .bindToAddButton(mIvAdd)
-                .bindAudioLayout(mLlVoice)
-                .bindAudioIv(mIvAudio)
-                .bindTransferAudioLayout(mTransferAudio);
+                 .bindttToSendButton(mBtnSend)
+                 .bindEditText(mEtContent)
+                 .bindBottomLayout(mRlBottomLayout)
+                 .bindAddLayout(mLlAdd)
+                 .bindToAddButton(mIvAdd)
+                 .bindAudioLayout(mLlVoice)
+                 .bindAudioIv(mIvAudio)
+                 .bindTransferAudioLayout(mTransferAudio);
         //底部布局弹出,聊天列表上滑
         mRvChat.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override

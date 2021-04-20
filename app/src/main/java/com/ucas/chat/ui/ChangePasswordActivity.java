@@ -1,4 +1,4 @@
-package com.ucas.chat.ui.register;
+package com.ucas.chat.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,49 +9,46 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 
 import com.ucas.chat.R;
 import com.ucas.chat.base.BaseActivity;
 import com.ucas.chat.bean.UserBean;
 import com.ucas.chat.bean.contact.ConstantValue;
-import com.ucas.chat.ui.home.HomeActivity;
-import com.ucas.chat.ui.login.LoginActivity;
 import com.ucas.chat.utils.SharedPreferencesUtil;
 import com.ucas.chat.utils.ToastUtils;
-
-import java.util.Random;
 
 import static com.ucas.chat.MyApplication.getContext;
 
 /**
- * 注册
+ * 修改密码
  */
-public class RegisterActivity extends BaseActivity {
+public class ChangePasswordActivity extends BaseActivity {
 
     private ImageView mImBack;
-    private TextView mEdUserName;
+    private TextView mTvUserName;
     private EditText mEdPassWord;
     private EditText mEdPassWordAgain;
     private Button mButtConfirm;
-    private String name;
-    private String password;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_change_password);
         initView();
         initListener();
+
     }
 
     private void initView() {
         mImBack = findViewById(R.id.im_back);
-        mEdUserName = findViewById(R.id.ed_user_name);
+        mTvUserName = findViewById(R.id.tv_user_name);
         mEdPassWord = findViewById(R.id.ed_pass_word);
         mEdPassWordAgain = findViewById(R.id.ed_pass_word_again);
         mButtConfirm = findViewById(R.id.butt_confirm);
+        UserBean bean = SharedPreferencesUtil.getUserBeanSharedPreferences(getContext());
+        if (null != bean){
+            mTvUserName.setText(bean.getUserName());
+        }
     }
 
     private void initListener() {
@@ -59,14 +56,22 @@ public class RegisterActivity extends BaseActivity {
         mButtConfirm.setOnClickListener(this);
     }
 
-    private void register(){
-        name = mEdUserName.getText().toString().trim();
-        password = mEdPassWord.getText().toString().trim();
-        if (TextUtils.isEmpty(name)) {
-            Log.d(TAG, "login: user name is null");
-            ToastUtils.showMessage(getContext(),getString(R.string.tip_uesr_name));
-            return;
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.im_back:
+                finish();
+                break;
+            case R.id.butt_confirm:
+               changePassword();
+                break;
         }
+    }
+
+    private void changePassword() {
+        String password = mEdPassWord.getText().toString().trim();
+
         if (TextUtils.isEmpty(password)) {
             Log.d(TAG, "login: password is null");
             ToastUtils.showMessage(getContext(),getString(R.string.tip_pass_word));
@@ -79,29 +84,15 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
-
-        Random rand = new Random();
-        int imIndex = rand.nextInt(UserBean.imHead.length);
-        UserBean bean = new UserBean();
-        bean.setImPhoto(imIndex);
-        bean.setUserName(name);
+        UserBean bean = SharedPreferencesUtil.getUserBeanSharedPreferences(getContext());
         bean.setPassword(password);
         SharedPreferencesUtil.setUserBeanSharedPreferences(getContext(), bean);
-        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-        startActivity(intent);
+
+        Intent intent = getIntent();
+        setResult(ConstantValue.LOGIN_TO_CHANGE_PASSWORD,intent);
+        finish();
+
     }
 
 
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()){
-            case R.id.im_back:
-                finish();
-                break;
-            case R.id.butt_confirm:
-                register();
-                break;
-        }
-    }
 }

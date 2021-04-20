@@ -10,10 +10,18 @@ import java.io.Serializable;
 public class UserBean implements Serializable {
 
     public static final int[] imHead = {R.mipmap.g1, R.mipmap.b1,R.mipmap.g2, R.mipmap.b2,R.mipmap.g3, R.mipmap.b3, };
+    private String nickName;//昵称
     private String userName;//用户名
     private String password;//密码
     private int imPhoto;//头像
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public String getUserName() {
         return userName;
