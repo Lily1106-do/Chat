@@ -61,6 +61,10 @@ public class LoginActivity extends BaseActivity{
         mTvRegister = findViewById(R.id.tv_register);
         mRoundProgressBar =findViewById(R.id.roundProgressBar);
         mRoundProgressBar.setProgress(50);
+        UserBean bean = SharedPreferencesUtil.getUserBeanSharedPreferences(getContext());
+        if (null != bean){
+            mEdUserName.setText(bean.getUserName());
+        }
         initClick();
     }
 
