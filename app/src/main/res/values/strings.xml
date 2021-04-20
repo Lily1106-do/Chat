@@ -34,6 +34,9 @@
     <string name="record_down_shuohua">按住说话</string>
     <string name="record_reload">重录</string>
     <string name="record_send">发布</string>
+    <string name="audio_fail">录音失败</string>
+    <string name="audio_cancel">取消录音</string>
+    <string name="audio_short">录音太短</string>
 
     <string name="description">支持变声模式；支持录制WAV格式；录制和变声同步转换MP3格式
     \n原始文件路径:/wave_soundtouch/soundtouch.wav

@@ -41,6 +41,7 @@ public class ChatUiHelper {
     private LinearLayout mEmojiLayout;//表情布局
     private LinearLayout mAddLayout;//添加布局
     private LinearLayout mVoiceLayout;
+    private SounchTouchView mTransferAudioLayout;//变音布局
     private Button mSendBtn;//发送按钮
     private View mAddButton;//加号按钮
     private Button mAudioButton;//录音按钮
@@ -66,7 +67,7 @@ public class ChatUiHelper {
     }
 
     public static final int EVERY_PAGE_SIZE = 21;
-  //  private List<EmojiBean> mListEmoji;
+    //  private List<EmojiBean> mListEmoji;
 
 //    public ChatUiHelper bindEmojiData() {
 //
@@ -218,8 +219,14 @@ public class ChatUiHelper {
     }
 
     //绑定录音布局
-    public ChatUiHelper bindVoiceLayout(LinearLayout voiceLayout) {
+    public ChatUiHelper bindAudioLayout(LinearLayout voiceLayout) {
         mVoiceLayout = voiceLayout;
+        return this;
+    }
+
+    //绑定变音布局
+    public ChatUiHelper bindTransferAudioLayout(SounchTouchView transferAudioLayout) {
+        mTransferAudioLayout = transferAudioLayout;
         return this;
     }
 
@@ -242,19 +249,23 @@ public class ChatUiHelper {
         audioIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //如果录音按钮显示
+                //如果录音Layout显示
                 if (mVoiceLayout.isShown()) {
-                    hideAudioButton();
-                    hideVoiceLayout();
-                    mEditText.requestFocus();
-                    showSoftInput();
-
-                } else {
                     mEditText.clearFocus();
+                    hideAudioLayout();
+                    hideTransferAudioLayout();
                     //showAudioButton();
                     // hideEmotionLayout();
-                    showVoiceLayout();
                     hideMoreLayout();
+                    hideSoftInput();
+                } else {
+                    // hideAudioButton();
+                    showBottomLayout();
+                    showAudioLayout();
+                    hideTransferAudioLayout();
+                    hideMoreLayout();
+                    mEditText.requestFocus();
+                    hideSoftInput();
                 }
             }
         });
@@ -264,14 +275,14 @@ public class ChatUiHelper {
     }
 
     private void hideAudioButton() {
-       // mAudioButton.setVisibility(View.GONE);
+        // mAudioButton.setVisibility(View.GONE);
         mEditText.setVisibility(View.VISIBLE);
-       // mAudioIv.setImageResource(R.mipmap.ic_audio);
+        // mAudioIv.setImageResource(R.mipmap.ic_audio);
     }
 
 
     private void showAudioButton() {
-      //  mAudioButton.setVisibility(View.VISIBLE);
+        //  mAudioButton.setVisibility(View.VISIBLE);
         mEditText.setVisibility(View.GONE);
         mAudioIv.setImageResource(R.mipmap.ic_keyboard);
         if (mBottomLayout.isShown()) {
@@ -350,13 +361,19 @@ public class ChatUiHelper {
                         lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
                         hideBottomLayout(true);//隐藏表情布局，显示软件盘
                         unlockContentHeightDelayed();//软件盘显示后，释放内容高度
+                        hideAudioLayout();
+                        hideTransferAudioLayout();
                     }else{
                         showMoreLayout();
+                        hideAudioLayout();
+                        hideTransferAudioLayout();
                         //  hideEmotionLayout();
                     }
                 }else{
                     if (isSoftInputShown()) {//同上
                         // hideEmotionLayout();
+                        hideAudioLayout();
+                        hideTransferAudioLayout();
                         showMoreLayout();
                         lockContentHeight();
                         showBottomLayout();
@@ -364,6 +381,8 @@ public class ChatUiHelper {
                     } else {
                         showMoreLayout();
                         // hideEmotionLayout();
+                        hideAudioLayout();
+                        hideTransferAudioLayout();
                         showBottomLayout();//两者都没显示，直接显示表情布局
                     }
                 }
@@ -381,12 +400,21 @@ public class ChatUiHelper {
         mAddLayout.setVisibility(View.VISIBLE);
     }
 
-    private void hideVoiceLayout(){
+    private void hideAudioLayout(){
         mVoiceLayout.setVisibility(View.GONE);
     }
 
-    private void showVoiceLayout(){
+    private void showAudioLayout(){
         mVoiceLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void hideTransferAudioLayout(){
+        mTransferAudioLayout.setVisibility(View.GONE);
+    }
+
+    public void showTransferAudioLayout(){
+        hideAudioLayout();
+        mTransferAudioLayout.setVisibility(View.VISIBLE);
     }
 
     /**

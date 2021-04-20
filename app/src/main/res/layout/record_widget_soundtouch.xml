@@ -81,7 +81,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_dialog_positive_selector"
             android:text="@string/ok"
-            android:textColor="@color/blue6"
+            android:textColor="@color/blue2"
             android:textSize="16sp"
             tools:ignore="NewApi" />
     </LinearLayout>

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.ucas.chat.ui.view.voice.widget.PlaySoundTouchWidget
+    <com.ucas.chat.ui.view.PlaySoundTouchWidget
         android:id="@+id/playsound"
         android:layout_marginTop="10dp"
         android:layout_width="50dp"

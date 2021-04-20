@@ -160,6 +160,11 @@
             android:id="@+id/llAdd"
             layout="@layout/include_add_layout"
             android:visibility="gone" />
+        <com.ucas.chat.ui.view.SounchTouchView
+            android:id="@+id/transferAudioLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </RelativeLayout>
 
 
