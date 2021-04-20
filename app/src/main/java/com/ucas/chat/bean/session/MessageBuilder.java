@@ -1,6 +1,7 @@
 package com.ucas.chat.bean.session;
 
 import com.ucas.chat.bean.session.message.AudioAttachment;
+import com.ucas.chat.bean.session.message.FileAttachment;
 import com.ucas.chat.bean.session.message.IMMessage;
 import com.ucas.chat.bean.session.message.IMMessageImpl;
 import com.ucas.chat.utils.StringUtils;
@@ -134,6 +135,16 @@ public class MessageBuilder {
         attachment.setDuration(duration);// ms
         attachment.setExtension(StringUtils.getExtension(file.getName()));
         msg.setAttachment(attachment);
+        return msg;
+    }
+
+    public static IMMessage createFileMessage(String sessionId, SessionTypeEnum sessionType,File file){
+        IMMessageImpl msg = initSendMessage(sessionId, sessionType);
+        msg.setMsgType(MsgTypeEnum.file);
+//        msg.setContent(file.getName());
+        FileAttachment fileAttachment = new FileAttachment();
+        fileAttachment.setSize(file.length());
+        fileAttachment.setExtension(StringUtils.getExtension(file.getName()));
         return msg;
     }
 }

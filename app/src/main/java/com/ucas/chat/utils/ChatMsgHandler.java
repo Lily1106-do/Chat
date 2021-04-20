@@ -86,6 +86,12 @@ public class ChatMsgHandler {
                 mChatSession.getSessionType(), new File(path), time);
     }
 
+
+    public IMMessage createFileMessage(String path) {
+        return MessageBuilder.createFileMessage(mChatSession.getSessionId(),
+                mChatSession.getSessionType(), new File(path));
+    }
+
     /**
      * 加载历史消息记录
      *

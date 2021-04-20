@@ -2,6 +2,7 @@ package com.ucas.chat.ui.home.chat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -28,17 +29,19 @@ import com.ucas.chat.ui.view.chat.RViewHolder;
 import com.ucas.chat.ui.view.msg.MsgRecyclerView;
 import com.ucas.chat.utils.ChatMsgHandler;
 import com.ucas.chat.utils.PictureFileUtil;
+import com.zlylib.fileselectorlib.FileSelector;
+import com.zlylib.fileselectorlib.utils.Const;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.ucas.chat.MyApplication.getContext;
 
-public class P2PChatActivity extends BaseActivity implements RecordButton.OnRecordListener{
+public class P2PChatActivity extends BaseActivity implements RecordButton.OnRecordListener {
 
-    public static final int REQUEST_CODE_IMAGE=0001;
-    public static final int REQUEST_CODE_VEDIO=0002;
-    public static final int REQUEST_CODE_FILE=0003;
+    public static final int REQUEST_CODE_IMAGE = 0001;
+    public static final int REQUEST_CODE_VEDIO = 0002;
+    public static final int REQUEST_CODE_FILE = 0003;
 
     private ImageView mImBack;
     private MsgRecyclerView mRvChat;
@@ -90,6 +93,7 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
         mImBack.setOnClickListener(this);
         mRlPhoto.setOnClickListener(this);
         mRlVideo.setOnClickListener(this);
+        findViewById(R.id.rlFile).setOnClickListener(this);
         mRecordButton.setOnRecordListener(this);
     }
 
@@ -107,7 +111,8 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
 
         mChatHandler = new ChatMsgHandler(getContext(), mChatSession);
     }
-    private void initContent(){
+
+    private void initContent() {
         mLayoutManager = (LinearLayoutManager) mRvChat.getLayoutManager();
         mMsgList = new ArrayList<>();
         mAdapter = new MessageListAdapter(getContext(), mMsgList);
@@ -118,10 +123,10 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
             public void onItemClick(RViewHolder holder, IMMessage message) {
                 switch (message.getMsgType()) {
                     case image:
-                        showAttachOnActivity(P2PChatActivity.this,ShowImageActivity.class, message);
+                        showAttachOnActivity(P2PChatActivity.this, ShowImageActivity.class, message);
                         break;
                     case audio:
-                       // playAudio(holder, message);
+                        // playAudio(holder, message);
                         break;
                     case video:
                         showAttachOnActivity(P2PChatActivity.this, ShowVideoActivity.class, message);
@@ -130,9 +135,10 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
             }
         });
     }
-    private void initChatUi(){
+
+    private void initChatUi() {
         //mBtnAudio
-        final ChatUiHelper mUiHelper= ChatUiHelper.with(this);
+        final ChatUiHelper mUiHelper = ChatUiHelper.with(this);
         mUiHelper.bindContentLayout(mLlContent)
                 .bindttToSendButton(mBtnSend)
                 .bindEditText(mEtContent)
@@ -182,7 +188,7 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.imBack:
                 finish();
                 break;
@@ -190,10 +196,13 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
                 sendTextMessage();
                 break;
             case R.id.rlPhoto:
-                PictureFileUtil.openGalleryPic(P2PChatActivity.this,REQUEST_CODE_IMAGE);
+                PictureFileUtil.openGalleryPic(P2PChatActivity.this, REQUEST_CODE_IMAGE);
                 break;
             case R.id.rlVideo:
-                PictureFileUtil.openGalleryAudio(P2PChatActivity.this,REQUEST_CODE_VEDIO);
+                PictureFileUtil.openGalleryAudio(P2PChatActivity.this, REQUEST_CODE_VEDIO);
+                break;
+            case R.id.rlFile:
+                openFileSelector(3);
                 break;
         }
     }
@@ -227,7 +236,12 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_FILE:
-
+                    if (data.getStringArrayListExtra(Const.EXTRA_RESULT_SELECTION) != null) {
+                        ArrayList<String> essFileList = data.getStringArrayListExtra(Const.EXTRA_RESULT_SELECTION);
+                        for (int i = 0; i < essFileList.size(); i++) {
+                            sendMessage(mChatHandler.createFileMessage(essFileList.get(i)));
+                        }
+                    }
                     break;
                 case REQUEST_CODE_IMAGE:
                     // 图片选择结果回调
@@ -247,6 +261,27 @@ public class P2PChatActivity extends BaseActivity implements RecordButton.OnReco
         }
 
     }
+
+
+    /**
+     * 选择文件,需要先申请文件存储权限
+     * int maxCount 选择的数量
+     */
+    private void openFileSelector(int maxCount) {
+        FileSelector.from(this)
+                // .onlyShowFolder()  //只显示文件夹
+                //.onlySelectFolder()  //只能选择文件夹
+                // .isSingle() // 只能选择一个
+                .setMaxCount(maxCount) //设置最大选择数
+                .setFileTypes("png", "jpg", "doc", "apk", "mp3", "gif", "txt", "mp4", "zip") //设置文件类型
+                .setSortType(FileSelector.BY_NAME_ASC) //设置名字排序
+                //.setSortType(FileSelector.BY_TIME_ASC) //设置时间排序
+                //.setSortType(FileSelector.BY_SIZE_DESC) //设置大小排序
+                //.setSortType(FileSelector.BY_EXTENSION_DESC) //设置类型排序
+                .requestCode(REQUEST_CODE_FILE) //设置返回码
+                .start();
+    }
+
 
     @Override
     public void recordStart() {
