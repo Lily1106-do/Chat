@@ -94,4 +94,9 @@
     <string name="please_enter_new_password">Please enter new password</string>
     <string name="confirm_the_new_password">Confirm the new password：</string>
     <string name="please_confirm_the_new_password">Please confirm the new password</string>
+
+    <string name="ch">Simplified Chinese</string>
+    <string name="ch_hk">Traditional Chinese</string>
+    <string name="en">English</string>
+    <string name="language_tip">Warm tip: choosing a language will cause the app to log in again</string>
 </resources>
