@@ -237,6 +237,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RViewHolder> {
                     public void onClick(View view) {
                         Intent intent = new Intent(mContext,DownloadActivity.class);
                         intent.putExtra("fileName",fileAttachment.getDisplayName());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
                     }
                 });
